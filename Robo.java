@@ -110,4 +110,11 @@ public class Robo {
 			
 		}
 	}
+	
+	public boolean seAlimentou(int frutaX, int frutaY) {
+		if(getX() == frutaX && getY() == frutaY) {
+			return true;
+		}
+		else {return false;}
+	}
 }
