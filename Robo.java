@@ -1,4 +1,3 @@
-package tartaruga;
 
 public class Robo {
 	public static void movimentoValidade(int posicao, char eixo) throws MovimentoInvalidoException {
@@ -8,40 +7,40 @@ public class Robo {
 		}
 	}
 
-	private int x;
-	private int y;
-	private String corRobo;
+	protected int x;
+	protected int y;
+	protected int xAnterior;
+	protected int yAnterior;
+
+	protected String corRobo;
+	protected boolean explodiu = false;	
+
+	protected int movimentosRealizados = 0;
+	protected int movimentosInvalidos = 0;
+
 	
 	public Robo(String corRobo) {
 		super();
 		this.corRobo = corRobo;
-		x = 0;
-		y = 0;
+		this.x = 0;
+		this.y = 0;
+		this.xAnterior = 0;
+		this.yAnterior = 0;
 	}
 
-	public int getX() {
-		return x;
-	}
+	public int getX() {return x;}
+	public void setX(int x) {this.x = x; this.xAnterior = this.x;}
 
-	public void setX(int x) {
-		this.x = x;
-	}
+	public int getY() {return y;}	
+	public void setY(int y) {this.y = y; this.yAnterior = this.y;}
 
-	public int getY() {
-		return y;
-	}
+	public String getCorRobo() {return corRobo;}
+	public void setCor(String corRobo) {this.corRobo = corRobo;}
 
-	public void setY(int y) {
-		this.y = y;
-	}
+	public boolean isExplodiu() {return explodiu;}
+	public void setExplodiu(boolean explodiu) {this.explodiu = explodiu;}
 
-	public String getCorRobo() {
-		return corRobo;
-	}
-
-	public void setCor(String corRobo) {
-		this.corRobo = corRobo;
-	}
+	
 	
 	public void mover(String movimento) {
 		if(movimento.equalsIgnoreCase("up")) {
@@ -77,7 +76,7 @@ public class Robo {
 		}
 	}
 	
-	public void mover(int movimento) {
+	public void mover(int movimento) throws MovimentoInvalidoException {
 		if(movimento == 1) {
 			int up = getY() + 1;
 			setY(up);
@@ -112,9 +111,11 @@ public class Robo {
 	}
 	
 	public boolean seAlimentou(int frutaX, int frutaY) {
-		if(getX() == frutaX && getY() == frutaY) {
+		if(this.x == frutaX && this.y == frutaY) {
 			return true;
 		}
 		else {return false;}
 	}
+
+    
 }
