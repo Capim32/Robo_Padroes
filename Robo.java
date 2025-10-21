@@ -1,8 +1,8 @@
 
 public class Robo {
 	public static void movimentoValidade(int posicao, char eixo) throws MovimentoInvalidoException {
-		if(posicao < 0) {
-			String aviso = "Movimento invalido, "+eixo+" seria negativo.";
+		if(posicao < 0 || posicao > 4) {
+			String aviso = "Movimento invalido, "+eixo+" estara fora do mapa";
 			throw new MovimentoInvalidoException(aviso);
 		}
 	}
@@ -64,14 +64,13 @@ public class Robo {
 				novoX --;
 				break;
 			default:
-				
 				this.movimentosInvalidos ++;
 				throw new MovimentoInvalidoException(movimento + " nao e um movimento valido. Use: up, right, down ou left.");
 		}
 
 		if (novoX < 0 || novoY < 0) {
 			this.movimentosInvalidos ++;
-			throw new MovimentoInvalidoException("Movimento invalido, o robo nao pode sair do limite de 0 em ambos os eixos.");
+			throw new MovimentoInvalidoException(" Movimento invalido, o robo nao pode sair do limite de 0 em ambos os eixos.");
 		}
 
 		/*
@@ -105,18 +104,18 @@ public class Robo {
 	}
 
 	// overload do metodo mover para movimentos com int
-	public void mover(int movimento) throws MovimentoInvalidoException {
+	public void mover(int intMover) throws MovimentoInvalidoException {
 		if (this.explodiu) {return;}
 
-		String dirStr;
-        switch (movimento) {
-            case 1: dirStr = "up"; break;
-            case 2: dirStr = "down"; break;
-            case 3: dirStr = "right"; break;
-            case 4: dirStr = "left"; break;
-            default: dirStr = "Direção Inválida (Código: " + movimento + ")";
-        }
-        mover(dirStr);
+		switch(intMover) {
+			case 1: mover("up"); break;
+			case 2: mover("down"); break;
+			case 3: mover("right"); break;
+			case 4: mover("left"); break;
+			default:
+				throw new MovimentoInvalidoException("codigo de movimento invalido, tente novamente.");
+		}
+		
 	}
 	
 	public boolean seAlimentou(int frutaX, int frutaY) {
@@ -127,7 +126,6 @@ public class Robo {
 	public void colidiuRocha() {
 		this.x = this.xAnterior;
         this.y = this.yAnterior;
-        System.out.println("Robô [" + this.corRobo + "] bateu em Rocha! Voltando para: (" + this.x + ", " + this.y + ")");
 	}
 
 	public void explodiu() {
