@@ -1,10 +1,9 @@
-//package tartaruga;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main1 {
-    private static final int TAMANHO_MAPA = 10;
+    public static final int TAMANHO_MAPA = 5;
 
     public static void main(String[] args) {
 
@@ -23,45 +22,46 @@ public class Main1 {
                 frutaX = scanner.nextInt();
                 System.out.print("Defina a posição Y do alimento (0 a 4): ");
                 frutaY = scanner.nextInt();
+                scanner.nextLine();
             } catch (InputMismatchException e) {
                 System.err.println("Entrada inválida. Digite apenas números inteiros.");
-                scanner.next();
+                scanner.nextLine();
             }
+
         }
         System.out.println("a fruta foi posicionada na coordenada: (" + frutaX + ", " + frutaY + ")");
-       
         // loop principal do jogo
         while (!robo.seAlimentou(frutaX, frutaY)) {
             mostrarMapa(robo, frutaX, frutaY);
 
             Mensagens.posicaoRoboAtual(robo.getX(), robo.getY());
             System.out.print("Digite o movimento do robô (up, down, left, right) ou o número correspondente (1: up, 2: down, 3: right, 4: left): ");
-            String movimentoInput = scanner.next();
+            String movimentoInput = scanner.nextLine().trim();
+
+            if (movimentoInput.isEmpty()) {System.out.println("nenhuma entrada.");continue;}
+
             try {
-                if (scanner.hasNextInt()) {
-                    int movimentoInt = scanner.nextInt();
+                try {
+                    int movimentoInt = Integer.parseInt(movimentoInput);
                     robo.mover(movimentoInt);
-                } else {
+                } catch (NumberFormatException e) {
                     robo.mover(movimentoInput);
                 }
             } catch (MovimentoInvalidoException e) {
-                System.out.println(e.getMessage());
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Tente novamente.");
-                scanner.next();
+                    System.out.println("erro:" + e.getMessage());
             }
 
             try {
-                Thread.sleep(50); 
+                TimeUnit.MILLISECONDS.sleep(50); 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-
 
         }
 
         mostrarMapa(robo, frutaX, frutaY);
         System.out.println("\nPARABÉNS! O Robô [" + robo.getCorRobo() + "] encontrou o alimento em (" + frutaX + ", " + frutaY + ")!");
+        System.out.println("O robô realizou " + robo.getMovimentosValidos() + " movimentos válidos e " + robo.getMovimentosInvalidos() + " movimentos inválidos.");
         scanner.close();
 
     
