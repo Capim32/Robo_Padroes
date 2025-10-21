@@ -1,4 +1,4 @@
-
+//package tartaruga;
 
 public class Mensagens {
 
@@ -7,6 +7,9 @@ public class Mensagens {
     }
     public static void perguntaCorRobo() {
         System.out.println("Qual a cor do seu robô?");
+    }
+    public static void perguntaCorRoboInteligente() {
+        System.out.println("Qual a cor do robô inteligente?");
     }
     public static void perguntaPosicaoXFruta() {
         System.out.println("Qual a posição X da fruta?");
