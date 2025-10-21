@@ -1,9 +1,11 @@
+package tartaruga;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Main1 {
-    public static final int TAMANHO_MAPA = 5;
+    public static final int TAMANHO_MAPA = 10;
 
     public static void main(String[] args) {
 
@@ -18,9 +20,9 @@ public class Main1 {
         int frutaX = -1, frutaY = -1;
         while (frutaX < 0 || frutaY < 0 || frutaX >= TAMANHO_MAPA || frutaY >= TAMANHO_MAPA) {
             try {
-                System.out.print("\nDefina a posição X do alimento (0 a 4): ");
+                System.out.print("\nDefina a posição X do alimento (0 a 9): ");
                 frutaX = scanner.nextInt();
-                System.out.print("Defina a posição Y do alimento (0 a 4): ");
+                System.out.print("Defina a posição Y do alimento (0 a 9): ");
                 frutaY = scanner.nextInt();
                 scanner.nextLine();
             } catch (InputMismatchException e) {

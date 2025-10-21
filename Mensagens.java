@@ -1,4 +1,4 @@
-
+package tartaruga;
 
 public class Mensagens {
 
@@ -10,6 +10,9 @@ public class Mensagens {
     }
     public static void perguntaCorRobo() {
         System.out.println("Qual a cor do seu robô?");
+    } 
+    public static void perguntaCorRoboInteligente() {
+        System.out.println("Qual a cor do robô inteligente?");
     } 
     public static void posicaoFruta(int frutaX, int frutaY) {
         System.out.println("A fruta foi posicionada na coordenada: (" + frutaX + ", " + frutaY + ")");

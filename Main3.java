@@ -1,11 +1,13 @@
 //main para instanciar robo e inteligente, jogadas aleatorias.
-//package tartaruga;
+package tartaruga;
 
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main3 {
-    private static final int TAMANHO_MAPA = 10;
+    public static final int TAMANHO_MAPA = 10;
 
     public static void main(String[] args) {
 
@@ -15,65 +17,86 @@ public class Main3 {
         Mensagens.perguntaCorRobo();
         String corRobo = scanner.nextLine();
         Robo robo = new Robo(corRobo);
-        System.out.println("Robo " + robo.getCorRobo() + " inicializado na posicao (0, 0)");
+        System.out.println("Robo " + robo.getCorRobo() + " inicializado na posicao (0, 0)\n");
         Mensagens.perguntaCorRoboInteligente();
         corRobo = scanner.nextLine();
         RoboInteligente robointeligente = new RoboInteligente(corRobo);
         System.out.println("Robô inteligente" + robo.getCorRobo() + " inicializado na posicao (0, 0)");
         
-        
         int frutaX = -1, frutaY = -1;
         while (frutaX < 0 || frutaY < 0 || frutaX >= TAMANHO_MAPA || frutaY >= TAMANHO_MAPA) {
             try {
-                System.out.print("\nDefina a posição X do alimento (0 a 4): ");
+                System.out.print("\nDefina a posição X do alimento (0 a 9): ");
                 frutaX = scanner.nextInt();
-                System.out.print("Defina a posição Y do alimento (0 a 4): ");
+                System.out.print("Defina a posição Y do alimento (0 a 9): ");
                 frutaY = scanner.nextInt();
+                scanner.nextLine();
             } catch (InputMismatchException e) {
                 System.err.println("Entrada inválida. Digite apenas números inteiros.");
-                scanner.next();
+                scanner.nextLine();
             }
+
         }
         System.out.println("a fruta foi posicionada na coordenada: (" + frutaX + ", " + frutaY + ")");
-       
         // loop principal do jogo
-        while (!robo.seAlimentou(frutaX, frutaY)) {
-            mostrarMapa(robo, frutaX, frutaY);
+        while (!robo.seAlimentou(frutaX, frutaY) && !robointeligente.seAlimentou(frutaX, frutaY)) {
+            mostrarMapa(robo, robointeligente, frutaX, frutaY);
 
             Mensagens.posicaoRoboAtual(robo.getX(), robo.getY());
-            System.out.print("Digite o movimento do robô (up, down, left, right) ou o número correspondente (1: up, 2: down, 3: right, 4: left): ");
-            String movimentoInput = scanner.next();
+            Mensagens.posicaoRoboAtual(robointeligente.getX(), robointeligente.getY());
+            //System.out.print("Digite o movimento do robô (up, down, left, right) ou o número correspondente (1: up, 2: down, 3: right, 4: left): ");
+            //String movimentoInput = scanner.nextLine().trim();
+
+            //if (movimentoInput.isEmpty()) {System.out.println("nenhuma entrada.");continue;}
+            
+            Random random = new Random(System.currentTimeMillis());
+            Random randomInteligente = new Random(System.currentTimeMillis()-100);
+            int movimento = random.nextInt(1, 5);
+            int movimentoInteligente = randomInteligente.nextInt(1,5);
+           
             try {
-                if (scanner.hasNextInt()) {
-                    int movimentoInt = scanner.nextInt();
+            	robo.mover(movimento);
+            	scanner.nextLine();
+            }
+            catch(Exception e){
+            	break;
+            }
+            
+            try {
+            	robointeligente.mover(movimentoInteligente);
+            	scanner.nextLine();
+            }
+            catch(Exception e){
+            	break;
+            }
+            /*try {
+                try {
+                    int movimentoInt = Integer.parseInt(movimentoInput);
                     robo.mover(movimentoInt);
-                } else {
+                } catch (NumberFormatException e) {
                     robo.mover(movimentoInput);
                 }
             } catch (MovimentoInvalidoException e) {
-                System.out.println(e.getMessage());
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Tente novamente.");
-                scanner.next();
-            }
+                    System.out.println("erro:" + e.getMessage());
+            }*/
 
             try {
-                Thread.sleep(50); 
+                TimeUnit.MILLISECONDS.sleep(50); 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
 
-
         }
 
-        mostrarMapa(robo, frutaX, frutaY);
+        mostrarMapa(robo, robointeligente, frutaX, frutaY);
         System.out.println("\nPARABÉNS! O Robô [" + robo.getCorRobo() + "] encontrou o alimento em (" + frutaX + ", " + frutaY + ")!");
+        System.out.println("O robô realizou " + robo.getMovimentosValidos() + " movimentos válidos e " + robo.getMovimentosInvalidos() + " movimentos inválidos.");
         scanner.close();
 
     
     }
 
-    public static void mostrarMapa(Robo robo, int frutaX, int frutaY) {
+    public static void mostrarMapa(Robo robo, RoboInteligente roboInteligente, int frutaX, int frutaY) {
         System.out.println("\n--- Tabuleiro ---");
         // Loop 'y' de cima para baixo (coordenadas maiores para menores)
         for (int y = TAMANHO_MAPA - 1; y >= 0; y--) {
@@ -90,6 +113,11 @@ public class Main3 {
                 if (x == robo.getX() && y == robo.getY()) {
                     // Substitui o Alimento se o robô estiver em cima
                     simbolo = robo.toString(); 
+                }
+                
+                if (x == roboInteligente.getX() && y == roboInteligente.getY()) {
+                    // Substitui o Alimento se o robô estiver em cima
+                    simbolo = roboInteligente.toString(); 
                 }
                 
                 System.out.print(simbolo + " ");

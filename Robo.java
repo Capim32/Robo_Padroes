@@ -1,8 +1,8 @@
-//package tartaruga;
+package tartaruga;
 
 public class Robo {
 	public static void movimentoValidade(int posicao, char eixo) throws MovimentoInvalidoException {
-		if(posicao < 0 || posicao > 4) { //não permite ter mais/menos tamanho que o mapa.
+		if(posicao < 0 || posicao > 10) { //não permite ter mais/menos tamanho que o mapa.
 			String aviso = "Movimento invalido, "+eixo+" estara fora do mapa";
 			throw new MovimentoInvalidoException(aviso);
 		}
