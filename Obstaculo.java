@@ -1,5 +1,3 @@
-//package tartaruga;
-
 public abstract class Obstaculo {
     int x;
     int y;

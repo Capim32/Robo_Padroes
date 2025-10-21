@@ -1,5 +1,3 @@
-//package tartaruga;
-
 import java.util.Random;
 
 public class RoboInteligente extends Robo {
