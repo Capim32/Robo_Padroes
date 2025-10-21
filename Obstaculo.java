@@ -1,17 +1,18 @@
-//package tartaruga;
-
 public abstract class Obstaculo {
-    int x;
-    int y;
+    private final int id; // id para os tipos de obstáculo
+    private final int x;
+    private final int y;
 
-    public Obstaculo(int x, int y) {
+    public Obstaculo(int id, int x, int y) {
+        this.id = id;
         this.x = x;
         this.y = y;
     }
 
-    public boolean colisao(int ProxRoboX, int ProxRoboY) {
-        if (ProxRoboX == x && ProxRoboY == y) {return true;}
-        else {return false;}
-    }
-    
+    public int getId() {return id;}
+    public int getX() {return x;}
+    public int getY() {return y;}
+
+    public abstract void colisao(Robo robo) throws MovimentoInvalidoException;
+    public abstract String getSimbolo();
 }
