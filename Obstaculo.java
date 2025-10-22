@@ -1,5 +1,9 @@
+/*
+ 4) Crie uma classe abstrata Osbtaculo que possui como atributo um id e o método
+ abstrato bater.
+ */
 public abstract class Obstaculo {
-    private final int id; // id para os tipos de obstáculo
+    private final int id;
     private final int x;
     private final int y;
 
@@ -13,6 +17,7 @@ public abstract class Obstaculo {
     public int getX() {return x;}
     public int getY() {return y;}
 
-    public abstract void colisao(Robo robo) throws MovimentoInvalidoException;
+    public abstract void bater(Robo robo, Tabuleiro tab, int oldX, int oldY);
+
     public abstract String getSimbolo();
 }
