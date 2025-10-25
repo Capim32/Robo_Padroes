@@ -1,59 +1,40 @@
 import java.util.Random;
+// o movimento aleatorio foi removido, era só sobrescrever o movimento 
 
 public class RoboInteligente extends Robo {
     private final Random random = new Random();
 
-    private String ultimoMovimentoInvalido = "";
+    private int ultimoMovimentoInvalido = 0;
 
     public RoboInteligente(String corRobo) {super(corRobo);}
 
-    private void moverAleatoriamente() {
-       String novaDirecao;
-       boolean movido = false;
+    @Override
+    public void mover(int movimento) {
+        if (explodiu) {return;}
 
-        while(!movido) {
-            int direcaoInt = random.nextInt(4) + 1;
-            switch (direcaoInt) {
-                case 1: novaDirecao = "up"; break;
-                case 2: novaDirecao = "down"; break;
-                case 3: novaDirecao = "left"; break;
-                case 4: novaDirecao = "right"; break;
-                default: novaDirecao = "up"; break;
-            
+        int tentativa = movimento;
+        Random random = new Random();
+
+        do { 
+            if (tentativa == ultimoMovimentoInvalido) {
+                do { 
+                    tentativa = random.nextInt(4) + 1;
+                } while (tentativa == ultimoMovimentoInvalido);
             }
-            if (novaDirecao.equalsIgnoreCase(this.ultimoMovimentoInvalido)) {continue;} // evitar repetir o movimento inválido
 
             try {
-                System.out.println("O robô inteligente " + this.getCorRobo() + " está tentando mover para " + novaDirecao);
-                super.mover(novaDirecao);
-                movido = true;
-                this.ultimoMovimentoInvalido = "";
+                super.mover(tentativa);
+                // se a excessao nao for lancada, o ultimo movimento é válido
+                ultimoMovimentoInvalido = 0; // reseta o último inválido
+                break;
+            } catch (MovimentoInvalidoException e) {
+                ultimoMovimentoInvalido = tentativa;
 
-            } catch (MovimentoInvalidoException ignored) {
-                // se o movimento falhar (entrar em zona negativa ou colidir), tentar outro movimento
-
-                System.out.println("movimento aleatório falhou, tentando novamente...");
+                do { 
+                    tentativa = random.nextInt(4) +1;
+                } while (tentativa == ultimoMovimentoInvalido);
             }
-
-        }
-    }
-
-    @Override
-    public void mover(String movimento) throws MovimentoInvalidoException {
-        try {
-            // se a direção atual for igual ao último movimento inválido, escolher outra direção
-            if (movimento.equalsIgnoreCase(this.ultimoMovimentoInvalido)) {
-                System.out.println("O robô inteligente " + this.getCorRobo() + " escolheu uma nova direção para evitar o obstáculo.");
-                moverAleatoriamente();
-                return; // sair do método após mover aleatoriamente            
-            }
-            super.mover(movimento);
-            this.ultimoMovimentoInvalido = ""; // resetar o último movimento inválido se o movimento for bem-sucedido
-        } catch(MovimentoInvalidoException e) {
-            System.out.println("O robô inteligente " + this.getCorRobo() + " não conseguiu mover para " + movimento + " devido a um obstáculo ou limite.");
-            this.ultimoMovimentoInvalido = movimento; // armazenar o movimento inválido
-            moverAleatoriamente(); // tentar mover aleatoriamente
-        }
+        } while (true); // continua até sair um movimento válido nessa desgraça
     }
     
 }
