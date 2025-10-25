@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
 
 public class Tabuleiro {
     public static final int AREA_TABULEIRO = 4;
@@ -64,6 +67,7 @@ public class Tabuleiro {
             // Ignora se não conseguir limpar
         }
 
+        System.out.println("\n\n\n\n");
         System.out.println("------------------------------------");
         System.out.println("    TABULEIRO (" + (AREA_TABULEIRO - 1) + "x" + (AREA_TABULEIRO - 1) + ") - fruta em (" + frutaX + ", " + frutaY + ")");
         System.out.println("------------------------------------");
@@ -132,14 +136,41 @@ public class Tabuleiro {
         System.out.println("Legenda:");
         System.out.print(" F  = fruta |");
         System.out.print(" B  = Bomba |");
-        System.out.print(" R  = Rocha |");
+        System.out.print(" P  = Pedra |");
         System.out.print(" X  = Robô Explodido |");
-        System.out.print(" @  = Robôs Colididos |");
-        System.out.println(" R = Robô \n");
-
+        System.out.print(" @  = Robôs Na mesma posicao |");
+        System.out.println("R = Robô \n");
+        
         for (Robo r : robos) {
             System.out.println("Robô " + r.getCorRobo() + ": Posição (" + r.getX() + ", " + r.getY() + ") " + (r.isExplodiu() ? "(EXPLODIDO)" : "") + " | Válidos: " + r.getMovimentosValidos() + ", Inválidos: " + r.getMovimentosInvalidos());
         }
         System.out.println("------------------------------------\n");
     }
+
+    public static void pausar(int milisegundos) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milisegundos);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static int obterCoordenadaValida(Scanner scanner, String mensagem) {
+        int coord = -1;
+        while (coord < 0 || coord >= AREA_TABULEIRO) {
+            System.out.print(mensagem + " (0 a " + (AREA_TABULEIRO - 1) + "): ");
+            if (scanner.hasNextInt()) {
+                coord = scanner.nextInt();
+                if (coord < 0 || coord >= AREA_TABULEIRO) {
+                    System.out.println( "Erro: Coordenada fora do limite. Tente novamente.");
+                }
+            } else {
+                System.out.println("Erro: Entrada inválida. Tente novamente.");
+                scanner.next();
+            }
+        }
+        return coord;
+    }
+
+
 }
