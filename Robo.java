@@ -42,7 +42,16 @@ public class Robo {
 	public boolean isExplodiu() {return explodiu;}
 	public void setExplodiu(boolean explodiu) {this.explodiu = explodiu;}
 
+	public int getMovimentosValidos() { return movimentosValidos; }
+    public int getMovimentosInvalidos() { return movimentosInvalidos; }
 
+	
+	// Constantes de cores ANSI para visualização no console (opcional, para estética)
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
 	
 	public void mover(String movimento) throws MovimentoInvalidoException {
 		if (this.explodiu) {return;} // caso tenha explodido, nao se move no turno
