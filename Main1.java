@@ -1,37 +1,58 @@
-package tartaruga;
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Main1 {
-    public static final int TAMANHO_MAPA = 10;
+    public static final int TAMANHO_MAPA = 4;
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+        Tabuleiro tabuleiro = new Tabuleiro();
+        String corRobo = "";
+        int cor;
 
         Mensagens.boasVindas();
-        Mensagens.perguntaCorRobo();
-        String corRobo = scanner.nextLine();
-        Robo robo = new Robo(corRobo);
-        System.out.println("robo " + robo.getCorRobo() + " inicializado na posicao (0, 0)");
-        
-        int frutaX = -1, frutaY = -1;
-        while (frutaX < 0 || frutaY < 0 || frutaX >= TAMANHO_MAPA || frutaY >= TAMANHO_MAPA) {
-            try {
-                System.out.print("\nDefina a posição X do alimento (0 a 9): ");
-                frutaX = scanner.nextInt();
-                System.out.print("Defina a posição Y do alimento (0 a 9): ");
-                frutaY = scanner.nextInt();
-                scanner.nextLine();
-            } catch (InputMismatchException e) {
-                System.err.println("Entrada inválida. Digite apenas números inteiros.");
-                scanner.nextLine();
+        do {
+            Mensagens.perguntaCorRobo();
+            System.out.println("1) vermelho \n2) azul \n3) amarelo \n4) verde");
+            cor = scanner.nextInt();
+            if (cor > 0 && cor < 5) {
+                switch (cor) {
+                    case 1: corRobo = "VERMELHO"; break;
+                    case 2: corRobo = "AZUL"; break;
+                    case 3: corRobo = "AMARELO"; break;
+                    case 4: corRobo = "VERDE"; break;
+                    default: System.out.println("código de cor válido");break;
+                }
             }
+            else {System.out.println("código de cor inválido, tente novamente");}
+            
+            
+        } while (cor <1 || cor > 4);
 
+        // insere a cor do robo no texto, pretty cool, right?
+        Robo robo = new Robo(corRobo);
+        switch (corRobo) {
+            case "VERMELHO": robo.ANSI_COR = robo.ANSI_RED; break;
+            case "AZUL": robo.ANSI_COR = robo.ANSI_BLUE; break;
+            case "AMARELO": robo.ANSI_COR = robo.ANSI_YELLOW; break;
+            case "VERDE": robo.ANSI_COR = robo.ANSI_GREEN; break;
+                
+            default:
+                throw new AssertionError();
         }
-        System.out.println("a fruta foi posicionada na coordenada: (" + frutaX + ", " + frutaY + ")");
+
+
+        System.out.println(robo.ANSI_COR  +"robo " + robo.getCorRobo() + " inicializado na posicao (0, 0)" + robo.ANSI_RESET);
+
+        int frutaX = Tabuleiro.obterCoordenadaValida(scanner, "coordenada X da fruta: ");
+        int frutaY = Tabuleiro.obterCoordenadaValida(scanner, "coordenada Y da fruta: ");
+        tabuleiro.setFruta(frutaX, frutaY);
+        System.out.println(robo.ANSI_GREEN + "a fruta foi posicionada na coordenada: (" + frutaX + ", " + frutaY + ")" + robo.ANSI_RESET);
+
+        System.out.println("pressione enter para continuar...");
+        scanner.nextLine();
+        
         // loop principal do jogo
         while (!robo.seAlimentou(frutaX, frutaY)) {
             mostrarMapa(robo, frutaX, frutaY);
@@ -62,7 +83,7 @@ public class Main1 {
         }
 
         mostrarMapa(robo, frutaX, frutaY);
-        System.out.println("\nPARABÉNS! O Robô [" + robo.getCorRobo() + "] encontrou o alimento em (" + frutaX + ", " + frutaY + ")!");
+        System.out.println("\nPARABÉNS! O Robô ["+ robo.ANSI_COR + robo.getCorRobo() + robo.ANSI_RESET + "] encontrou o alimento em ("+ robo.ANSI_GREEN + frutaX + ", " + frutaY + robo.ANSI_RESET +")!");
         System.out.println("O robô realizou " + robo.getMovimentosValidos() + " movimentos válidos e " + robo.getMovimentosInvalidos() + " movimentos inválidos.");
         scanner.close();
 
@@ -79,13 +100,13 @@ public class Main1 {
                 
                 // 1. Alimento
                 if (x == frutaX && y == frutaY) {
-                    simbolo = "@"; // Simbolo do alimento
+                    simbolo = robo.ANSI_GREEN + "F" + robo.ANSI_RESET; // Simbolo da fruta
                 }
                 
                 // 2. Robô
                 if (x == robo.getX() && y == robo.getY()) {
                     // Substitui o Alimento se o robô estiver em cima
-                    simbolo = robo.toString(); 
+                    simbolo = robo.ANSI_COR + robo.toString() + robo.ANSI_RESET; 
                 }
                 
                 System.out.print(simbolo + " ");
