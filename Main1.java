@@ -43,7 +43,8 @@ public class Main1 {
         }
 
 
-        System.out.println(robo.ANSI_COR  +"robo " + robo.getCorRobo() + " inicializado na posicao (0, 0)" + robo.ANSI_RESET);
+        System.out.println("robo [" + robo.ANSI_COR  + robo.getCorRobo()  + robo.ANSI_RESET + "] inicializado na posicao (0, 0)");
+
 
         int frutaX = Tabuleiro.obterCoordenadaValida(scanner, "coordenada X da fruta: ");
         int frutaY = Tabuleiro.obterCoordenadaValida(scanner, "coordenada Y da fruta: ");
@@ -127,3 +128,4 @@ public class Main1 {
 
     }
 }
+
