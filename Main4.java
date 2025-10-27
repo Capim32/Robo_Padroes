@@ -9,11 +9,56 @@ public class Main4 {
         Random random = new Random();
 
         Tabuleiro tabuleiro = new Tabuleiro();
-        Robo roboNormal = new Robo("azul");
-        RoboInteligente roboInteligente = new RoboInteligente("vermelho");
-        List<Robo> robos = Arrays.asList(roboNormal,roboInteligente);
+        String corRobo1 = "", corRobo2 = "";
+        int cor1, cor2;
 
-        System.out.println("cenário 4: Robô normal vs Robô inteligente (com obstáculos)\n");
+        Mensagens.boasVindas();
+
+        // infelizmente lembrei de fazer isso de ultima hora, tá meio porco
+        do {
+            Mensagens.perguntaCorRobo();
+            System.out.print("robô normal: ");
+            cor1 = scanner.nextInt();
+            if (cor1 > 0 && cor1 < 5) {
+                switch (cor1) {
+                    case 1: corRobo1 = "VERMELHO"; break;
+                    case 2: corRobo1 = "AZUL"; break;
+                    case 3: corRobo1 = "AMARELO"; break;
+                    case 4: corRobo1 = "VERDE"; break;
+                    default: System.out.println("código de cor válido");break;
+                }
+            }
+            else {System.out.println("código de cor inválido, tente novamente");}
+            
+            
+        } while (cor1 <1 || cor1 > 4);
+
+        do {
+            Mensagens.perguntaCorRobo();
+            System.out.print("robô inteligente : ");
+            cor2 = scanner.nextInt();
+            if (cor2 > 0 && cor2 < 5) {
+                switch (cor2) {
+                    case 1: corRobo2 = "VERMELHO"; break;
+                    case 2: corRobo2 = "AZUL"; break;
+                    case 3: corRobo2 = "AMARELO"; break;
+                    case 4: corRobo2 = "VERDE"; break;
+                    default: System.out.println("código de cor válido");break;
+                }
+            }
+            else {System.out.println("código de cor inválido, tente novamente");}
+            
+            
+        } while (cor2 <1 || cor2 > 4);
+
+        Robo robo1 = new Robo(corRobo1);
+        Robo robo2 = new Robo(corRobo2);
+        List<Robo> robos = Arrays.asList(robo1, robo2);
+        tabuleiro.adicionarRobo(robo1);
+        tabuleiro.adicionarRobo(robo2);
+
+
+        System.out.println("Main 4: Robô normal vs Robô inteligente (com obstáculos)\n");
 
         int frutaX = Tabuleiro.obterCoordenadaValida(scanner, "Digite a coordenada X da fruta");
         int frutaY = Tabuleiro.obterCoordenadaValida(scanner, "Digite a coordenada Y da fruta");
@@ -27,7 +72,7 @@ public class Main4 {
         Robo vencedor = null;
         int turno = 0;
 
-        while (vencedor == null && !roboNormal.isExplodiu() || !roboInteligente.isExplodiu()) {
+        while (vencedor == null && (!robo1.isExplodiu() || !robo2.isExplodiu())) {
             turno++;
 
             Robo roboAtual = robos.get(turno % 2); 
@@ -57,21 +102,21 @@ public class Main4 {
                 }
             }
 
-            Tabuleiro.pausar(500);
+            Tabuleiro.pausar(200);
         }
-        System.out.println("fim do jogo!");
+        System.out.println(Robo.ANSI_YELLOW + "fim do jogo!" + Robo.ANSI_RESET);
 
         if (vencedor != null) {
-            System.out.println("O Robô VENCEDOR é o " + vencedor.getCorRobo() + "!");
+            System.out.println("O Robô VENCEDOR é o [" + vencedor.ANSI_COR +  vencedor.getCorRobo() +  vencedor.ANSI_RESET +"] !");
             System.out.println("Ele encontrou o alimento em (" + vencedor.getX() + ", " + vencedor.getY() + ").");
         } else {
-            System.out.println("Nenhum robô encontrou o alimento. Ambos explodiram! Fim do jogo.");
+            System.out.println(Robo.ANSI_YELLOW + "Nenhum robô encontrou o alimento. Ambos explodiram! Fim do jogo." + Robo.ANSI_RESET);
         }
         System.out.println("------------------------------------");
         
         for (Robo r : robos) {
             int totalTentativas = r.getMovimentosValidos() + r.getMovimentosInvalidos();
-            System.out.println("Robô " + r.getCorRobo() + ":");
+            System.out.println("Robô [" + r.getCorANSI() + r.getCorRobo() + r.ANSI_RESET +"] :");
             //System.out.println("   -> Encerrou " + (r.isExplodiu() ? Robo.ANSI_RED + "EXPLODIDO" + Robo.ANSI_RESET : "ao encontrar o alimento."));
             System.out.println("   -> Total de Tentativas (V+I): " + totalTentativas);
         }
@@ -101,11 +146,11 @@ public class Main4 {
                         obsX = scanner.nextInt();
                         System.out.print("Digite a coordenada Y do obstáculo (0 a " + (Tabuleiro.AREA_TABULEIRO - 1) + "): ");
                         obsY = scanner.nextInt();
-                        scanner.nextLine(); // Limpa buffer
+                        scanner.nextLine();
                         
                         // Garante que não está na posição (0,0) (inicial) ou alimento
                         if ((obsX == 0 && obsY == 0) || (obsX == frutaX && obsY == frutaY)) {
-                            System.out.println("Obstáculo não pode estar na posição inicial (0,0) ou na posição do alimento.");
+                            System.out.println(Robo.ANSI_RED + "Obstáculo não pode estar na posição inicial (0,0) ou na posição do alimento." + Robo.ANSI_RESET);
                             continue;
                         }
                         
@@ -123,7 +168,7 @@ public class Main4 {
                         }
                         
                     } catch (java.util.InputMismatchException e) {
-                        System.out.println("Entrada inválida. Tente novamente.");
+                        System.out.println(Robo.ANSI_RED + "Entrada inválida. Tente novamente." + Robo.ANSI_RESET);
                         scanner.nextLine();
                     }
                 }
