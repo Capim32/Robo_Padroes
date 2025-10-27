@@ -43,8 +43,7 @@ public class Main1 {
         }
 
 
-        System.out.println("robo [" + robo.ANSI_COR  + robo.getCorRobo()  + robo.ANSI_RESET + "] inicializado na posicao (0, 0)");
-
+        System.out.println("robo [ " + robo.ANSI_COR  + robo.getCorRobo()  + robo.ANSI_RESET + " ] inicializado na posicao (0, 0)");
 
         int frutaX = Tabuleiro.obterCoordenadaValida(scanner, "coordenada X da fruta: ");
         int frutaY = Tabuleiro.obterCoordenadaValida(scanner, "coordenada Y da fruta: ");
@@ -72,7 +71,7 @@ public class Main1 {
                     robo.mover(movimentoInput);
                 }
             } catch (MovimentoInvalidoException e) {
-                    System.out.println("erro:" + e.getMessage());
+                    System.out.println(robo.ANSI_RED + "erro:" + e.getMessage() + robo.ANSI_RESET);
             }
 
             try {
@@ -128,4 +127,3 @@ public class Main1 {
 
     }
 }
-
