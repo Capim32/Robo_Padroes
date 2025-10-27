@@ -15,6 +15,10 @@ public class Tabuleiro {
 
     public Tabuleiro() {this.obstaculos = new ArrayList<>();}
 
+    // para impedir que robos ocupem a mesma posicao 
+    private final List<Robo> robos = new ArrayList<>();
+    public void adicionarRobo(Robo robo) {this.robos.add(robo);}
+
     public void setFruta(int x, int y) {this.frutaX = x; this.frutaY = y;}
 
     public boolean adicionarObstaculo(Obstaculo obstaculo) {
@@ -57,6 +61,20 @@ public class Tabuleiro {
         }
     }
 
+    public boolean isPosicaoOcupadaPorRobo(Robo roboAtual, int novoX, int novoY) {
+        // permite que ambos os robôs começem em (0,0), mas acho que faz com que eles possam se colidir nessa posicao durante o jogo
+        if (novoX == 0 && novoY == 0) {
+        return false;
+    }
+    
+    for (Robo outroRobo : robos) {
+        if (outroRobo != roboAtual && outroRobo.getX() == novoX && outroRobo.getY() == novoY && !outroRobo.isExplodiu()) {
+            return true;
+        }
+    }
+    return false;
+}
+
     public void imprimir(List<Robo> robos) {
         // Limpar tela (não universal, mas ajuda)
         try {
@@ -64,7 +82,7 @@ public class Tabuleiro {
             System.out.print("\033[H\033[2J");
             System.out.flush();
         } catch (Exception e) {
-            // Ignora se não conseguir limpar
+            // o comando é ignorado se não conseguir ser executado, joga uma excessao
         }
 
         System.out.println("\n\n\n\n");
@@ -74,9 +92,9 @@ public class Tabuleiro {
 
         // desenha a grade do tabuleiro
         for (int y = AREA_TABULEIRO - 1; y >= 0; y--) {
-            System.out.print(" " + y + " |"); // Eixo Y
+            System.out.print(" " + y + " |");
             for (int x = 0; x < AREA_TABULEIRO; x++) {
-                String simbolo = "   "; // Padrão: espaço vazio
+                String simbolo = "   ";
 
                 // verifica a fruta
                 if (x == frutaX && y == frutaY) {
@@ -92,7 +110,7 @@ public class Tabuleiro {
                     }
                 }
                 if (obsNaPosicao != null) {
-                    simbolo = obsNaPosicao.getSimbolo() + " ";
+                    simbolo = obsNaPosicao.getSimbolo() + "  ";
                 }
 
                 // 3. Verificar Robôs
@@ -108,7 +126,7 @@ public class Tabuleiro {
                                 simbolo = Robo.ANSI_YELLOW + " @ " + Robo.ANSI_RESET;
                             } else {
                                 // Se só há um robô
-                                simbolo = r.ANSI_COR  + " R " + r.ANSI_RESET;
+                                simbolo = r.getCorANSI()  + " R " + r.ANSI_RESET;
                             }
                         }
                         roboNaPosicao = r;
@@ -128,7 +146,7 @@ public class Tabuleiro {
         System.out.println("-");
         System.out.print("   ");
         for (int i = 0; i < AREA_TABULEIRO; i++) {
-            System.out.print(" " + i + "  ");
+            System.out.print("  " + i + "  ");
         }
         System.out.println("\n");
         
@@ -136,7 +154,7 @@ public class Tabuleiro {
         System.out.println("Legenda:");
         System.out.print(Robo.ANSI_GREEN + " F " + Robo.ANSI_RESET + " = Alimento |");
         System.out.print(Robo.ANSI_RED + " B " + Robo.ANSI_RESET + " = Bomba |");
-        System.out.print(Robo.ANSI_YELLOW + " R " + Robo.ANSI_RESET + " = Rocha |");
+        System.out.print(Robo.ANSI_YELLOW + " P " + Robo.ANSI_RESET + " = Pedra |");
         System.out.print(" X " + " = Robô Explodido |");
         System.out.print(Robo.ANSI_YELLOW + " @ " + Robo.ANSI_RESET + " = Robôs na mesma posição |");
         System.out.println(" R = Robô (Cor Varia)\n");
