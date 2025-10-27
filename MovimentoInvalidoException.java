@@ -4,7 +4,7 @@
 public class MovimentoInvalidoException extends Exception{
 	private static final long serialVersionUID = 8;
 	
-	public MovimentoInvalidoException(String aviso) {super(aviso);}
+	public MovimentoInvalidoException(String aviso) {super(aviso);} //construtor que recebe aviso, ou seja, uma string que pega 'X' ou 'Y' como causa do erro.
 	
 	public MovimentoInvalidoException() {super(" Movimento invalido, pois a posição irá ser negativa.");}
 	
