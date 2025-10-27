@@ -11,12 +11,55 @@ public class Main2 {
         Random random = new Random();
         
         Tabuleiro tabuleiro = new Tabuleiro();
-        Robo robo1 = new Robo("VERMELHO");
-        Robo robo2 = new Robo("AZUL");
-        List<Robo> robos = Arrays.asList(robo1, robo2);
+        String corRobo1 = "", corRobo2 = "";
+        int cor1, cor2;
 
         Mensagens.boasVindas();
-        
+
+        // infelizmente lembrei de fazer isso de ultima hora, tá meio porco
+        do {
+            Mensagens.perguntaCorRobo();
+            System.out.print("robô 1: ");
+            cor1 = scanner.nextInt();
+            if (cor1 > 0 && cor1 < 5) {
+                switch (cor1) {
+                    case 1: corRobo1 = "VERMELHO"; break;
+                    case 2: corRobo1 = "AZUL"; break;
+                    case 3: corRobo1 = "AMARELO"; break;
+                    case 4: corRobo1 = "VERDE"; break;
+                    default: System.out.println("código de cor válido");break;
+                }
+            }
+            else {System.out.println("código de cor inválido, tente novamente");}
+            
+            
+        } while (cor1 <1 || cor1 > 4);
+
+        do {
+            Mensagens.perguntaCorRobo();
+            System.out.print("robô 2: ");
+            cor2 = scanner.nextInt();
+            if (cor2 > 0 && cor2 < 5) {
+                switch (cor2) {
+                    case 1: corRobo2 = "VERMELHO"; break;
+                    case 2: corRobo2 = "AZUL"; break;
+                    case 3: corRobo2 = "AMARELO"; break;
+                    case 4: corRobo2 = "VERDE"; break;
+                    default: System.out.println("código de cor válido");break;
+                }
+            }
+            else {System.out.println("código de cor inválido, tente novamente");}
+            
+            
+        } while (cor2 <1 || cor2 > 4);
+
+        Robo robo1 = new Robo(corRobo1);
+        Robo robo2 = new Robo(corRobo2);
+        List<Robo> robos = Arrays.asList(robo1, robo2);
+        tabuleiro.adicionarRobo(robo1);
+        tabuleiro.adicionarRobo(robo2);
+
+
         System.out.println("Main 2: 2 robôs randômicos");
         System.out.println( Robo.ANSI_BLUE + "Ambos os robôs foram iniciados nas coordenadas (0,0)." + Robo.ANSI_RESET);
 
@@ -52,7 +95,7 @@ public class Main2 {
             
             if (vencedor != null) {break;}
 
-            Tabuleiro.pausar(1000);            
+            Tabuleiro.pausar(500);            
         }
 
     System.out.println("\n--- Fim do Cenário 2 ---");
