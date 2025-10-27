@@ -110,13 +110,13 @@ public class Main3 {
             Tabuleiro.pausar(500);
         }
 
-        System.out.println("fim do jogo!");
+       System.out.println(Robo.ANSI_YELLOW + "fim do jogo!" + Robo.ANSI_RESET);
 
         int totalMovNormal = roboNormal.getMovimentosInvalidos() + roboNormal.getMovimentosInvalidos();
         int totalMovInteligente = roboInteligente.getMovimentosInvalidos() + roboInteligente.getMovimentosInvalidos();
 
-        System.out.println("Robô Normal (" + roboNormal.ANSI_COR + roboNormal.getCorRobo() + roboNormal.ANSI_RESET +") Total de Tentativas (V+I): " + totalMovNormal);
-        System.out.println("Robô Inteligente (" + roboInteligente.ANSI_COR + roboInteligente.getCorRobo() + roboInteligente.ANSI_RESET +") Total de Tentativas (V+I): " + totalMovInteligente);
+        System.out.println("Robô Normal [" + roboNormal.getCorANSI() + roboNormal.getCorRobo() + roboNormal.ANSI_RESET +"] Total de Tentativas (V+I): " + totalMovNormal);
+        System.out.println("Robô Inteligente [" + roboInteligente.getCorANSI() + roboInteligente.getCorRobo() + roboInteligente.ANSI_RESET +"] Total de Tentativas (V+I): " + totalMovInteligente);
 
         if (totalMovNormal < totalMovInteligente) {
             System.out.println(Robo.ANSI_GREEN + "O Robô Normal foi o mais eficiente (menor número de tentativas)." + Robo.ANSI_RESET);
