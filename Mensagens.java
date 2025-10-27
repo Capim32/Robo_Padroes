@@ -9,7 +9,7 @@ public class Mensagens {
         System.out.println("Escolha o modo de jogo: \n 1) 1 robô controlado pelo usuário \n 2) 2 robôs movidos randomicamente");
     }
     public static void perguntaCorRobo() {
-        System.out.println("Qual a cor do seu robô? \n1) vermelho \n2) azul \n3) amarelo \n4) verde");
+        System.out.println("Qual o código de cor do seu robô? \n1)" + Robo.ANSI_RED + "vermelho " +Robo.ANSI_RESET +"\n2)" + Robo.ANSI_BLUE + "azul" + Robo.ANSI_RESET + "\n3)" + Robo.ANSI_YELLOW  + "amarelo" + Robo.ANSI_RESET + "\n4)"+ Robo.ANSI_GREEN + "verde" + Robo.ANSI_RESET);
     } 
     public static void posicaoFruta(int frutaX, int frutaY) {
         System.out.println("A fruta foi posicionada na coordenada: (" + frutaX + ", " + frutaY + ")");
@@ -25,3 +25,4 @@ public class Mensagens {
     }
 
 }
+
