@@ -2,7 +2,7 @@
  * 4) Rocha: o método bater faz o robô voltar para a posição anterior.
  */
 public class Rocha extends Obstaculo {
-    public static final String SIMBOLO = "R";
+    public static final String SIMBOLO = Robo.ANSI_YELLOW + "R" + Robo.ANSI_RESET;
 
     public Rocha(int id, int x, int y) {
         super(id, x, y);
