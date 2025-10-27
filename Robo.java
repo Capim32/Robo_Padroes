@@ -1,4 +1,3 @@
-package tartaruga;
 
 public class Robo {
 	public static void movimentoValidade(int posicao, char eixo) throws MovimentoInvalidoException {
@@ -8,6 +7,14 @@ public class Robo {
 		}
 	}
 
+	 // Constantes de cores ANSI para visualização no console (opcional, para estética)
+	public String ANSI_COR = "";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+
 	private int x;
 	private int y;
 	private int xAnterior;
@@ -15,7 +22,7 @@ public class Robo {
 
 
 	private String corRobo;
-	private boolean explodiu = false;	
+	protected  boolean explodiu = false;	
 
 	protected int movimentosRealizados;
 	protected int movimentosValidos;
@@ -23,6 +30,7 @@ public class Robo {
 
 
 	public Robo(String corRobo) {
+		super();
 		this.corRobo = corRobo;
 		this.x = 0;
 		this.y = 0;
@@ -45,13 +53,17 @@ public class Robo {
 	public int getMovimentosValidos() { return movimentosValidos; }
     public int getMovimentosInvalidos() { return movimentosInvalidos; }
 
-	
-	// Constantes de cores ANSI para visualização no console (opcional, para estética)
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
+	// método para pegar as cores ANSI 
+	public String getCorANSI() {
+        switch (corRobo.toUpperCase()) {
+            case "VERMELHO": return ANSI_RED;
+            case "AZUL": return ANSI_BLUE;
+            case "VERDE": return ANSI_GREEN;
+            case "AMARELO": return ANSI_YELLOW;
+            default: return ANSI_RESET;
+        }
+	}
+
 	
 	public void mover(String movimento) throws MovimentoInvalidoException {
 		if (this.explodiu) {return;} // caso tenha explodido, nao se move no turno
@@ -141,12 +153,7 @@ public class Robo {
 		this.explodiu = true;
 		System.out.println("O robo " + this.corRobo + " encontrou um obstaculo e explodiu na posicao (" + this.x + ", " + this.y + ").");
 	}
-
-    public int getMovimentosValidos() { return movimentosValidos; }
-    public int getMovimentosInvalidos() { return movimentosInvalidos; }
     
-
-
     // toString para fácil impressão
     @Override
     public String toString() {
