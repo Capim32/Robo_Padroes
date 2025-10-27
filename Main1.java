@@ -14,7 +14,6 @@ public class Main1 {
         Mensagens.boasVindas();
         do {
             Mensagens.perguntaCorRobo();
-            System.out.println("1) vermelho \n2) azul \n3) amarelo \n4) verde");
             cor = scanner.nextInt();
             if (cor > 0 && cor < 5) {
                 switch (cor) {
