@@ -57,7 +57,7 @@ public class Main4 {
                 }
             }
 
-            Tabuleiro.pausar(1000);
+            Tabuleiro.pausar(500);
         }
         System.out.println("fim do jogo!");
 
