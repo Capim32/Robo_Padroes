@@ -1,5 +1,5 @@
 public class Bomba extends Obstaculo {
-    public static final String SIMBOLO = "B";
+    public static final String SIMBOLO = Robo.ANSI_RED + "B" + Robo.ANSI_RESET;
 
     public Bomba(int id, int x, int y) {super(id, x, y);}
 
