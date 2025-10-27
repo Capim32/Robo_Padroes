@@ -80,7 +80,7 @@ public class Tabuleiro {
 
                 // verifica a fruta
                 if (x == frutaX && y == frutaY) {
-                    simbolo = " F ";
+                    simbolo = Robo.ANSI_GREEN + " F " + Robo.ANSI_RESET;
                 }
 
                 // verifica os obstaculos
@@ -100,15 +100,15 @@ public class Tabuleiro {
                 for (Robo r : robos) {
                     if (r.getX() == x && r.getY() == y) {
                         if (r.isExplodiu()) {
-                            simbolo = " X "; 
+                            simbolo = r.ANSI_COR + " X " + r.ANSI_RESET; 
                         } 
                         else {
                             if (roboNaPosicao != null) {
                                 // Se há mais de um robô na mesma célula
-                                simbolo =" @ "; // explosao cabum cablau 
+                                simbolo = Robo.ANSI_YELLOW + " @ " + Robo.ANSI_RESET;
                             } else {
                                 // Se só há um robô
-                                simbolo = " R ";
+                                simbolo = r.ANSI_COR  + " R " + r.ANSI_RESET;
                             }
                         }
                         roboNaPosicao = r;
@@ -132,17 +132,18 @@ public class Tabuleiro {
         }
         System.out.println("\n");
         
-        // mostra as legendas
+        // Exibir legenda
         System.out.println("Legenda:");
-        System.out.print(" F  = fruta |");
-        System.out.print(" B  = Bomba |");
-        System.out.print(" P  = Pedra |");
-        System.out.print(" X  = Robô Explodido |");
-        System.out.print(" @  = Robôs Na mesma posicao |");
-        System.out.println("R = Robô \n");
+        System.out.print(Robo.ANSI_GREEN + " F " + Robo.ANSI_RESET + " = Alimento |");
+        System.out.print(Robo.ANSI_RED + " B " + Robo.ANSI_RESET + " = Bomba |");
+        System.out.print(Robo.ANSI_YELLOW + " R " + Robo.ANSI_RESET + " = Rocha |");
+        System.out.print(" X " + " = Robô Explodido |");
+        System.out.print(Robo.ANSI_YELLOW + " @ " + Robo.ANSI_RESET + " = Robôs na mesma posição |");
+        System.out.println(" R = Robô (Cor Varia)\n");
+
         
         for (Robo r : robos) {
-            System.out.println("Robô " + r.getCorRobo() + ": Posição (" + r.getX() + ", " + r.getY() + ") " + (r.isExplodiu() ? "(EXPLODIDO)" : "") + " | Válidos: " + r.getMovimentosValidos() + ", Inválidos: " + r.getMovimentosInvalidos());
+            System.out.println(r.ANSI_COR + "Robô " + r.getCorRobo() + r.ANSI_RESET + ": Posição (" + r.getX() + ", " + r.getY() + ") " + (r.isExplodiu() ? "(EXPLODIDO)" : "") + " | Válidos: " + r.getMovimentosValidos() + ", Inválidos: " + r.getMovimentosInvalidos());
         }
         System.out.println("------------------------------------\n");
     }
