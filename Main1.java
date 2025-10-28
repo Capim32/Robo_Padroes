@@ -31,6 +31,7 @@ public class Main1 {
 
         // insere a cor do robo no texto, pretty cool, right?
         Robo robo = new Robo(corRobo);
+        tabuleiro.adicionarRobo(robo);
         switch (corRobo) {
             case "VERMELHO": robo.ANSI_COR = robo.ANSI_RED; break;
             case "AZUL": robo.ANSI_COR = robo.ANSI_BLUE; break;
@@ -126,3 +127,4 @@ public class Main1 {
 
     }
 }
+
