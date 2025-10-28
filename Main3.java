@@ -110,7 +110,7 @@ public class Main3 {
             Tabuleiro.pausar(500);
         }
 
-       System.out.println(Robo.ANSI_YELLOW + "fim do jogo!" + Robo.ANSI_RESET);
+        System.out.println(Robo.ANSI_YELLOW + "fim do jogo!" + Robo.ANSI_RESET);
 
         int totalMovNormal = roboNormal.getMovimentosInvalidos() + roboNormal.getMovimentosInvalidos();
         int totalMovInteligente = roboInteligente.getMovimentosInvalidos() + roboInteligente.getMovimentosInvalidos();
